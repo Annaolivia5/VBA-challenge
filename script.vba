@@ -52,6 +52,7 @@ counter = 2
                     'calculate percent change
                     percentChange = yearChange / startPrice
                     Cells(counter, 11).Value = percentChange
+                    Cells(counter, 11).NumberFormat = " %0.00"
                     yearChange = 0
                     percentChange = 0
                 End If
@@ -71,7 +72,4 @@ counter = 2
     
 
 End Sub
-
-
-
 
