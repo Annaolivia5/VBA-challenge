@@ -126,7 +126,7 @@ Sub stocks():
         ws.Cells(3, 16).NumberFormat = " %0.00"
         
         ws.Cells(4, 14).Value = "Greatest Total Volume"
-        ws.Cells(4, 15).Value = greatestTotalVolumTicker
+        ws.Cells(4, 15).Value = greatestTotalVolumeTicker
         ws.Cells(4, 16).Value = greatestTotalVolume
 
 
@@ -134,7 +134,3 @@ Sub stocks():
             
 
 End Sub
-
-
-
-
