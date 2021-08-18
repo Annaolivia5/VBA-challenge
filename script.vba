@@ -10,35 +10,35 @@ counter = 2
     Cells(1, 11).Value = "Percent Change"
     Cells(1, 12).Value = "Total Stock Volume"
 
-    For Each ws In Worksheets
+'    For Each ws In Worksheets
     
-        lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+        lastRow = Cells(Rows.Count, 1).End(xlUp).Row 'ws.Cells
         
         'save the first opening price
         Dim statrPrice As Integer
-        startPrice = ws.Cells(2, 3).Value
+        startPrice = Cells(2, 3).Value 'ws.Cells
         
         'save the first ticker name
         Dim currentTicker As String
-        currentTicker = ws.Cells(2, 1).Value
+        currentTicker = Cells(2, 1).Value 'ws.Cells
         
         Dim totalVolume As LongLong
         totalVolume = 0
         
         For i = 2 To lastRow
     
-            If (Not (ws.Cells(i + 1, 1) = ws.Cells(i, 1))) Then
+            If (Not (Cells(i + 1, 1) = Cells(i, 1))) Then 'ws.Cells
             
                 'add ticker symbols
-                Cells(counter, 9).Value = ws.Cells(i, 1).Value
+                Cells(counter, 9).Value = Cells(i, 1).Value 'ws.Cells
                 
                 'add totalVolume to the table
-                totalVolume = totalVolume + ws.Cells(i, 7).Value
+                totalVolume = totalVolume + Cells(i, 7).Value 'ws.Cells
                 Cells(counter, 12).Value = totalVolume
                 totalVolume = 0
                 
                 'calculate the difference in price
-                yearChange = startPrice - ws.Cells(i, 3).Value
+                yearChange = startPrice - Cells(i, 3).Value 'ws.Cells
                 Cells(counter, 10).Value = yearChange
                 
                 If startPrice <> 0 Then
@@ -50,19 +50,17 @@ counter = 2
                 End If
                 
                 'update the current start price
-                startPrice = ws.Cells(i + 1, 3).Value
+                startPrice = Cells(i + 1, 3).Value 'ws.Cells
     
                 'update the counter for next row
                 counter = counter + 1
                 
             Else
                 'calculate total stock volume
-                totalVolume = totalVolume + ws.Cells(i, 7).Value
+                totalVolume = totalVolume + Cells(i, 7).Value
             End If
              
         Next i
-
-    Next ws
     
 
 End Sub
