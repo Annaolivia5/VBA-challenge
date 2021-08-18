@@ -3,6 +3,18 @@ Sub stocks():
 
     For Each ws In Worksheets
     
+        Dim greatestIncrease As Double
+        greatestIncrease = 0
+        Dim greatestIncreaseTicker As String
+    
+        Dim greatestDecrease As Double
+        greatestDecrease = 0
+        Dim greatestDecreaseTicker As String
+        
+        Dim greatestTotalVolume As LongLong
+        greatestTotalVolume = 0
+        Dim greatestTotalVolumTicker As String
+        
         Dim counter As Integer
         counter = 2
         
@@ -12,7 +24,6 @@ Sub stocks():
         ws.Cells(1, 11).Value = "Percent Change"
         ws.Cells(1, 12).Value = "Total Stock Volume"
 
-    
         lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row 'ws.Cells
         
         'save the first opening price
@@ -36,6 +47,14 @@ Sub stocks():
                 'add totalVolume to the table
                 totalVolume = totalVolume + ws.Cells(i, 7).Value 'ws.Cells
                 ws.Cells(counter, 12).Value = totalVolume
+                
+                'update greatest total volume if needed
+                If (totalVolume > greatestTotalVolume) Then
+                    
+                        greatestTotalVolumeTicker = ws.Cells(i, 1).Value
+                        greatestTotalVolume = totalVolume
+                End If
+                    
                 totalVolume = 0
                 
                 'calculate the difference in price
@@ -44,15 +63,35 @@ Sub stocks():
                 
                 'add color to the yearly change cells
                 If (yearChange < 0) Then
+                    
                     ws.Cells(counter, 10).Interior.ColorIndex = 3
                 Else
+                
                     ws.Cells(counter, 10).Interior.ColorIndex = 4
                 End If
                 
                 If startPrice <> 0 Then
+                
                     'calculate percent change
                     percentChange = yearChange / startPrice
                     ws.Cells(counter, 11).Value = percentChange
+                    ws.Cells(counter, 11).NumberFormat = " %0.00"
+                    
+                    
+                    'update greatest increase if needed
+                    If (percentChange > greatestIncrease) Then
+                    
+                        greatestIncreaseTicker = ws.Cells(i, 1).Value
+                        greatestIncrease = percentChange
+                    End If
+                    
+                    'update greatest decrease if needed
+                    If (percentChange < greatestDecrease) Then
+                    
+                        greatestDecreaseTicker = ws.Cells(i, 1).Value
+                        greatestDecrease = percentChange
+                    End If
+                    
                     yearChange = 0
                     percentChange = 0
                 End If
@@ -64,16 +103,38 @@ Sub stocks():
                 counter = counter + 1
                 
             Else
+            
                 'calculate total stock volume
                 totalVolume = totalVolume + ws.Cells(i, 7).Value
             End If
              
         Next i
         
+        
+        'Bonus table
+        ws.Cells(1, 15).Value = "Ticker"
+        ws.Cells(1, 16).Value = "Value"
+        
+        ws.Cells(2, 14).Value = "Greatest % Increase"
+        ws.Cells(2, 15).Value = greatestIncreaseTicker
+        ws.Cells(2, 16).Value = greatestIncrease
+        ws.Cells(2, 16).NumberFormat = " %0.00"
+        
+        ws.Cells(3, 14).Value = "Greatest % Decrease"
+        ws.Cells(3, 15).Value = greatestDecreaseTicker
+        ws.Cells(3, 16).Value = greatestDecrease
+        ws.Cells(3, 16).NumberFormat = " %0.00"
+        
+        ws.Cells(4, 14).Value = "Greatest Total Volume"
+        ws.Cells(4, 15).Value = greatestTotalVolumTicker
+        ws.Cells(4, 16).Value = greatestTotalVolume
+
+
     Next ws
             
 
 End Sub
+
 
 
 
